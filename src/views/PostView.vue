@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from "vue-router"
 import { collection, query, where, getDocs, onSnapshot } from "firebase/firestore"
 import db from "../firebase/init.js"
@@ -41,6 +41,12 @@ async function getPosts() {
 
 watch(() => route.params.user, getPosts)
 
+const averageStars = computed(() => {
+  // TODO:
+})
+
+console.log(averageStars.value)
+
 onMounted(() => {
   getPosts()
 })
@@ -48,7 +54,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <h3>Posts : {{ user }}</h3>
+  <h3>Posts : {{ user }} <span></span></h3>
   <PostItem v-for="post in posts" :post="post" :key="post.id" />
 </template>
 
