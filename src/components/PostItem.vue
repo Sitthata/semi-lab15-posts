@@ -1,20 +1,37 @@
 <script setup>
-import CommentItem from "../components/CommentItem.vue"
+import { computed, reactive } from "vue";
+import CommentItem from "../components/CommentItem.vue";
 
-defineProps({
+const props = defineProps({
   post: {
     type: Object,
     required: true,
-  }
+  },
+});
+
+const localPost = reactive(props.post);
+
+const averageStars = computed(() => {
+  const totalStars = localPost.comments.reduce((acc, comment) => {
+    return acc += comment.stars;
+  }, 0);
+  return localPost.comments.length === 0 ? 0 : (totalStars / localPost.comments.length).toFixed(2);
 });
 </script>
 
 <template>
   <div class="box">
     {{ post.body }}
-    <h4 class="title">comments ({{ post.comments.length }})</h4>
-    <CommentItem v-for="comment in post.comments" :comment="comment" :key="comment.id" />
+    <h4 class="title">
+      comments ({{ localPost.comments.length }}) (average: {{ averageStars }})
+    </h4>
+    <CommentItem
+      v-for="comment in localPost.comments"
+      :comment="comment"
+      :key="comment.id"
+    />
   </div>
+
 </template>
 
 <style scoped>
