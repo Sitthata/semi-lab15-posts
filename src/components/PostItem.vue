@@ -1,6 +1,7 @@
 <script setup>
 import { computed, reactive } from "vue";
 import CommentItem from "../components/CommentItem.vue";
+import NewComment from "../components/NewComment.vue";
 
 const props = defineProps({
   post: {
@@ -22,6 +23,7 @@ const averageStars = computed(() => {
 <template>
   <div class="box">
     {{ post.body }}
+    <NewComment :postId="post.id" />
     <h4 class="title">
       comments ({{ localPost.comments.length }}) (average: {{ averageStars }})
     </h4>
